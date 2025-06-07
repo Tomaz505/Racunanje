@@ -1,7 +1,14 @@
-function Lagrange(xi,yi)
+function Lagrange(xi::Array{Number},yi::Array{Number})
 	n = length(xi)
-	f(x) = sum([ yi[i]/prod(xi[setdiff(1:n,i)] .- xi[i] )*prod(xi[setdiff(1:n,i)].-x) for i = 1:n])
+	
+	if n< length(yi)
+		error("yi prekratek")
+	end
 
+
+	f(x::Number) = sum([ yi[i]/prod(xi[setdiff(1:n,i)] .- xi[i] )*prod(xi[setdiff(1:n,i)].-x) for i = 1:n])
+	
+	f(x::Array{Number}) = [ f(x::Number) for x =x ]
 
 	return f
 end
