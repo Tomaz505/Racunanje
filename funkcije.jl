@@ -77,17 +77,19 @@ function GaussIntegrate(f::Function,a1,a2;n=30)
 end
 	
 
-function TrigExpans(f,a1,a2;n = 40)
-
-	l1 = Lagrange([0,2*pi],[a1,a2])
+function TrigExpans(f::Function,a1::Number,a2::Number;n::Int64 = 60)
+	x,w = GaussQuadrature(2*n)
+	l1 = Lagrange([-1,1],[a1,a2])
 	l2 = Lagrange([-1,1],[0,2*pi])
-	
-	x,w = GaussQuadrature(n)
+	l3 = Lagrange([a1,a2],[0,2*pi])
 
-	s = [w'*(f.(l1(l2(x))).*sin.(i*l1(x))) for i = 1:n ]
-	c = [w'*(f.(l1(l2(x))).*cos.(i*l1(x))) for i = 1:n ]
-	a = GaussIntegrate(f,a1,a2)
-	return a,s,c
+
+	s = [w'*(f.(l1.(x)).*sin.(i*l2(x))) for i = 1:n ]
+	c = [w'*(f.(l1.(x)).*cos.(i*l2.(x))) for i = 1:n ] 
+	a = GaussIntegrate(f,a1,a2;n=n)/(a2-a1)
+	
+	g(h) = a + s'*sin.((1:n)*l3(h))+c'*cos.((1:n)*l3(h))
+	return g
 end
 
 	
