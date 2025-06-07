@@ -1,3 +1,12 @@
+"""Lagrange(xi::vector{<:Number},yi::Vector{<:Number})
+
+	f = Lagrange(xi,yi)
+	f(xi) = yi
+	
+	f(x::Number) & f(x::Vector{<:Number})
+
+	
+"""
 function Lagrange(xi::Vector{<:Number},yi::Vector{<:Number})
 
 	n = length(xi)
