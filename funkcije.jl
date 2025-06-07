@@ -1,3 +1,4 @@
+using LinearAlgebra
 """Lagrange(xi::vector{<:Number},yi::Vector{<:Number})
 
 	f = Lagrange(xi,yi)
@@ -46,3 +47,12 @@ function LeastSquares(xi::Vector{<:Number},yi::Vector{<:Number};n = 1)
 end
 
 
+function GaussQuadrature(n::Int64)
+	b = [ (i+1)/((2*i+1)*(2*i+3))^0.5 for i=0:n-2]
+	K = diagm(1=>b,-1=>b)
+	E = eigen(K)
+
+	wg = 2*E.vectors[1,:].^2
+	xg = E.values
+	return xg,wg
+end
