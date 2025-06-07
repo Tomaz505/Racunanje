@@ -65,4 +65,29 @@ function GaussQuadrature(n::Int64)
 	return xg,wg
 end
 
+"""GaussIntegrate(f,a1,a2)
 
+I = GaussIntegrate(f,a1,a2) = wi'*f(xi)
+"""
+function GaussIntegrate(f::Function,a1,a2;n=30)
+	x,w = GaussQuadrature(n::Int64)
+
+	I =w'*f.(x*(a2-a1)/2 .+(a2+a1)/2)*(a2-a1)/2
+	I = round(I,digits = 14)
+end
+	
+
+function TrigExpans(f,a1,a2;n = 40)
+
+	l1 = Lagrange([0,2*pi],[a1,a2])
+	l2 = Lagrange([-1,1],[0,2*pi])
+	
+	x,w = GaussQuadrature(n)
+
+	s = [w'*(f.(l1(l2(x))).*sin.(i*l1(x))) for i = 1:n ]
+	c = [w'*(f.(l1(l2(x))).*cos.(i*l1(x))) for i = 1:n ]
+	a = GaussIntegrate(f,a1,a2)
+	return a,s,c
+end
+
+	
