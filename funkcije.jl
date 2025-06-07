@@ -47,6 +47,14 @@ function LeastSquares(xi::Vector{<:Number},yi::Vector{<:Number};n = 1)
 end
 
 
+
+
+"""GaussQuadrature(n::Int64)
+
+	x,w = GaussQuadrature(n)
+
+	f(x)*w ~> Int(f,-1,1)
+"""
 function GaussQuadrature(n::Int64)
 	b = [ (i+1)/((2*i+1)*(2*i+3))^0.5 for i=0:n-2]
 	K = diagm(1=>b,-1=>b)
@@ -56,3 +64,5 @@ function GaussQuadrature(n::Int64)
 	xg = E.values
 	return xg,wg
 end
+
+
