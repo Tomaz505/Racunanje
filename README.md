@@ -1,3 +1,3 @@
 # To so orodja za racunanje
 
-Ta repozitorij si lahko shranis na telefon.
+Ta repozitorij sem si pripravil za prenos v android Linux emulator UserLand.
